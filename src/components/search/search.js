@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {AsyncPaginate} from "react-select-async-paginate";
 //AsyncPaginate is an alternative of Async but supports loading page by page.
 import { geoApiOptions, GEO_API_URL } from "../../api";
@@ -16,12 +16,14 @@ const Search = ({ onSearchChange }) => {
             return {
                 options: response.data.map((city) => {
                     return {
-                        value: `${city.latitude}${city.longitude}`,
+                        value: `${city.latitude} ${city.longitude}`,
                         label: `${city.name}, ${city.countryCode}`,
                     };
                 }),
             };
-        });
+        })
+        .catch(err => console.error(err));
+
     };
 
     const handleOnChange = (searchData) => {

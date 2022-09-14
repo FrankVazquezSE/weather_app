@@ -10,14 +10,12 @@ function App() {
   const [forecast, setForecast] = useState(null);
 
   const handleOnSearchChange = (searchData) => {
+    console.log(searchData);
     const [lat, lon] = searchData.value.split(" ");
-
-    const currentWeatherFetch = fetch(
-      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`
-    );
-    const forecastFetch = fetch(
-      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`
-    );
+    console.log([lat, lon]);
+    const currentWeatherFetch = fetch(`${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`);
+    console.log(currentWeatherFetch);
+    const forecastFetch = fetch(`${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=imperial`);
 
     Promise.all([currentWeatherFetch, forecastFetch])
       .then(async (response) => {
@@ -27,9 +25,10 @@ function App() {
         setCurrentWeather({ city: searchData.label, ...weatherResponse });
         setForecast({ city: searchData.label, ...forcastResponse });
       })
-      .catch(console.log);
-  };
+      .catch((err) => console.log(err));
 
+  };
+  console.log(forecast);
   return (
     <div className="container">
       <Search onSearchChange={handleOnSearchChange} />
